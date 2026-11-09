@@ -7,9 +7,10 @@
 <meta name="description" content="FoldersPanel pour Windows 11 : un panneau latéral qui affiche vos dossiers de travail d'un raccourci clavier, et le contenu d'un dossier au survol de son icône sur le Bureau. Sans collecte de données, hors ligne.">
 <meta property="og:title" content="FoldersPanel — les dossiers de votre Bureau Windows, transformés pour un accès facilité">
 <meta property="og:description" content="Panneau latéral et aperçu au survol du Bureau pour Windows 11. Essai gratuit 7 jours sur le Microsoft Store.">
-<meta property="og:image" content="https://illanor-solutions.fr/img/survol-jeux.png">
+<meta property="og:image" content="https://illanor-solutions.fr/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:type" content="website">
-<link rel="icon" href="img/logo.svg" type="image/svg+xml">
+<link rel="icon" href="img/logo-small.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
 <style>
@@ -26,7 +27,7 @@
   header{position:sticky;top:0;z-index:5;backdrop-filter:blur(14px);background:rgba(21,18,42,.72);border-bottom:1px solid var(--line)}
   nav{display:flex;align-items:center;gap:16px;height:64px}
   .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--text);text-decoration:none}
-  .brand img{width:32px;height:32px}
+  .brand img{width:32px;height:32px;border-radius:8px}
   nav .links{margin-left:auto;display:flex;gap:18px;align-items:center;font-size:14px}
   nav .links a{color:var(--sub);text-decoration:none}
   nav .links a:hover{color:var(--text)}
@@ -59,7 +60,7 @@
   .step b{counter-increment:s;flex:0 0 34px;height:34px;border-radius:50%;background:var(--grad);color:#12102a;display:grid;place-items:center;font-weight:800}
   .step b::before{content:counter(s)}
   .step div{color:var(--sub)} .step div strong{color:var(--text);display:block;margin-bottom:2px}
-  .gallery{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .gallery{columns:2;column-gap:18px} .gallery .shot{break-inside:avoid;margin-bottom:18px}
   .faq details{border-top:1px solid var(--line);padding:14px 0}
   .faq summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between}
   .faq summary::after{content:"+";color:var(--acc1)} .faq details[open] summary::after{content:"–"}
@@ -91,13 +92,13 @@
   }
   @media (max-width:860px){
     .hero{grid-template-columns:1fr;padding-top:40px} .hero h1{font-size:34px}
-    .cards,.demo,.gallery{grid-template-columns:1fr} nav .links a.hide-m{display:none}
+    .cards,.demo{grid-template-columns:1fr} .gallery{columns:1} nav .links a.hide-m{display:none}
   }
 </style>
 </head>
 <body>
 <header><div class="wrap"><nav>
-  <a class="brand" href="#"><img src="img/logo.svg" alt="">FoldersPanel</a>
+  <a class="brand" href="#"><img src="img/logo-small.svg" alt="">FoldersPanel</a>
   <div class="links">
     <a class="hide-m" href="#features"><span data-lang="fr">Fonctions</span><span data-lang="en">Features</span></a>
     <a class="hide-m" href="#demo"><span data-lang="fr">Démo</span><span data-lang="en">Demo</span></a>
@@ -126,7 +127,7 @@
       <div class="price" data-lang="fr">Essai gratuit 7 jours, puis 3,99 € une fois pour toutes. Aucune collecte de données.</div>
       <div class="price" data-lang="en">7-day free trial, then €3.99 once. No data collection.</div>
     </div>
-    <div class="shot"><img src="img/survol-jeux.png" alt="Panneau FoldersPanel ouvert au survol d'un dossier du Bureau"></div>
+    <div class="shot"><img src="img/survol-recents.png" alt="Panneau FoldersPanel ouvert au survol d'un dossier du Bureau, avec les récents"></div>
   </div>
 
   <section id="features">
@@ -169,7 +170,9 @@
 
   <section>
     <div class="gallery">
-      <div class="shot reveal"><img src="img/survol-documents.png" alt="Menu contextuel du panneau au survol"></div>
+      <div class="shot reveal"><img src="img/panneau-lateral.png" alt="Panneau latéral FoldersPanel : mes dossiers, récents, recherche"></div>
+      <div class="shot reveal"><img src="img/dossier-menu.png" alt="Menu contextuel sur un fichier : épingler, masquer, renommer, copier"></div>
+      <div class="shot reveal"><img src="img/couleurs.png" alt="Choix de la couleur d'un dossier"></div>
       <div class="shot reveal"><img src="img/parametres.png" alt="Paramètres de FoldersPanel"></div>
     </div>
   </section>
