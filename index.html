@@ -69,6 +69,26 @@
   footer .row{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between;align-items:center}
   footer a{color:var(--sub)}
   [hidden]{display:none !important}
+  /* Animations : entrée en cascade du bloc d'accueil, apparition au défilement, survol des cartes */
+  .hero > div > *{opacity:0;transform:translateY(14px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
+  .hero > div > :nth-child(1){animation-delay:.05s} .hero > div > :nth-child(2){animation-delay:.15s}
+  .hero > div > :nth-child(3){animation-delay:.25s} .hero > div > :nth-child(4){animation-delay:.35s} .hero > div > :nth-child(5){animation-delay:.45s}
+  .hero > .shot{opacity:0;transform:translateY(24px) scale(.97);animation:rise .9s .3s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  .cards .card:nth-child(2){transition-delay:.1s} .cards .card:nth-child(3){transition-delay:.2s}
+  .steps .step:nth-child(2){transition-delay:.12s} .steps .step:nth-child(3){transition-delay:.24s}
+  .gallery .shot:nth-child(2){transition-delay:.12s}
+  .card,.shot{transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s,opacity .7s}
+  .card:hover{transform:translateY(-4px);border-color:#4a4580}
+  .gallery .shot:hover,.demo .shot:hover{transform:translateY(-4px);box-shadow:0 36px 90px rgba(0,0,0,.55)}
+  .btn{transition:transform .25s,box-shadow .25s,filter .25s} .btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
+  .faq details p{animation:fade .35s ease} @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){
+    .hero > div > *,.hero > .shot{animation:none;opacity:1;transform:none}
+    .reveal{opacity:1;transform:none;transition:none} .card,.shot,.btn{transition:none}
+  }
   @media (max-width:860px){
     .hero{grid-template-columns:1fr;padding-top:40px} .hero h1{font-size:34px}
     .cards,.demo,.gallery{grid-template-columns:1fr} nav .links a.hide-m{display:none}
@@ -110,20 +130,22 @@
   </div>
 
   <section id="features">
+    <div class="reveal">
     <div class="kicker" data-lang="fr">Ce que fait FoldersPanel</div><div class="kicker" data-lang="en">What FoldersPanel does</div>
     <h2 data-lang="fr">Moins de clics, plus de travail</h2><h2 data-lang="en">Fewer clicks, more work done</h2>
     <p class="lead" data-lang="fr">Pensé pour ceux qui vivent dans leurs dossiers : projets, clients, partages réseau, téléchargements.</p>
     <p class="lead" data-lang="en">Built for people who live in their folders: projects, clients, network shares, downloads.</p>
+    </div>
     <div class="cards">
-      <div class="card"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="7" height="16" rx="2"/><path d="M14 8h6M14 12h6M14 16h4"/></svg></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="7" height="16" rx="2"/><path d="M14 8h6M14 12h6M14 16h4"/></svg></div>
         <h3 data-lang="fr">Panneau latéral</h3><h3 data-lang="en">Side panel</h3>
         <p data-lang="fr">Alt + E ou un clic sur l'icône FP près de l'horloge. Mes dossiers, recherche instantanée, récents et les plus utilisés.</p>
         <p data-lang="en">Alt + E or a click on the FP icon next to the clock. My folders, instant search, recent and most-used items.</p></div>
-      <div class="card"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 11v6M9 14h6"/></svg></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 11v6M9 14h6"/></svg></div>
         <h3 data-lang="fr">Aperçu au survol du Bureau</h3><h3 data-lang="en">Desktop hover preview</h3>
         <p data-lang="fr">Posez la souris sur un dossier du Bureau : son contenu s'affiche à côté. Ouvrez, naviguez, copiez un chemin, glissez un fichier vers Outlook ou Teams.</p>
         <p data-lang="en">Rest the mouse on a desktop folder: its contents show up next to it. Open, browse, copy a path, drag a file into Outlook or Teams.</p></div>
-      <div class="card"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
         <h3 data-lang="fr">Discret et hors ligne</h3><h3 data-lang="en">Quiet and offline</h3>
         <p data-lang="fr">Aucune connexion réseau, aucune collecte. Thème clair, sombre ou comme Windows ; interface en français et en anglais.</p>
         <p data-lang="en">No network connection, no data collection. Light, dark or system theme; English and French interface.</p></div>
@@ -132,14 +154,14 @@
 
   <section id="demo">
     <div class="demo">
-      <div class="shot"><img src="img/demo.gif" alt="Démonstration de FoldersPanel"></div>
-      <div>
+      <div class="shot reveal"><img src="img/demo.gif" alt="Démonstration de FoldersPanel"></div>
+      <div class="reveal">
         <div class="kicker" data-lang="fr">En 30 secondes</div><div class="kicker" data-lang="en">In 30 seconds</div>
         <h2 data-lang="fr">Comment ça marche</h2><h2 data-lang="en">How it works</h2>
         <div class="steps">
-          <div class="step"><b></b><div data-lang="fr"><strong>Choisissez vos dossiers</strong>Au premier lancement, FoldersPanel propose ceux du Bureau, Documents et Téléchargements ; ajoutez-en d'autres à tout moment, y compris des partages réseau.</div><div data-lang="en"><strong>Pick your folders</strong>On first launch, FoldersPanel suggests your desktop, Documents and Downloads folders; add more at any time, including network shares.</div></div>
-          <div class="step"><b></b><div data-lang="fr"><strong>Alt + E</strong>Le panneau glisse depuis le bord de l'écran. Tapez quelques lettres pour filtrer, Entrée pour ouvrir, Échap pour revenir.</div><div data-lang="en"><strong>Alt + E</strong>The panel slides in from the edge of the screen. Type a few letters to filter, Enter to open, Esc to go back.</div></div>
-          <div class="step"><b></b><div data-lang="fr"><strong>Survolez le Bureau</strong>Un dossier sous la souris, et son contenu apparaît. Épinglez, colorez, masquez, regroupez : chaque dossier à votre façon.</div><div data-lang="en"><strong>Hover the desktop</strong>A folder under the mouse, and its contents appear. Pin, color, hide, group: every folder your way.</div></div>
+          <div class="step reveal"><b></b><div data-lang="fr"><strong>Choisissez vos dossiers</strong>Au premier lancement, FoldersPanel propose ceux du Bureau, Documents et Téléchargements ; ajoutez-en d'autres à tout moment, y compris des partages réseau.</div><div data-lang="en"><strong>Pick your folders</strong>On first launch, FoldersPanel suggests your desktop, Documents and Downloads folders; add more at any time, including network shares.</div></div>
+          <div class="step reveal"><b></b><div data-lang="fr"><strong>Alt + E</strong>Le panneau glisse depuis le bord de l'écran. Tapez quelques lettres pour filtrer, Entrée pour ouvrir, Échap pour revenir.</div><div data-lang="en"><strong>Alt + E</strong>The panel slides in from the edge of the screen. Type a few letters to filter, Enter to open, Esc to go back.</div></div>
+          <div class="step reveal"><b></b><div data-lang="fr"><strong>Survolez le Bureau</strong>Un dossier sous la souris, et son contenu apparaît. Épinglez, colorez, masquez, regroupez : chaque dossier à votre façon.</div><div data-lang="en"><strong>Hover the desktop</strong>A folder under the mouse, and its contents appear. Pin, color, hide, group: every folder your way.</div></div>
         </div>
       </div>
     </div>
@@ -147,12 +169,12 @@
 
   <section>
     <div class="gallery">
-      <div class="shot"><img src="img/survol-documents.png" alt="Menu contextuel du panneau au survol"></div>
-      <div class="shot"><img src="img/parametres.png" alt="Paramètres de FoldersPanel"></div>
+      <div class="shot reveal"><img src="img/survol-documents.png" alt="Menu contextuel du panneau au survol"></div>
+      <div class="shot reveal"><img src="img/parametres.png" alt="Paramètres de FoldersPanel"></div>
     </div>
   </section>
 
-  <section id="faq" class="faq">
+  <section id="faq" class="faq reveal">
     <h2>FAQ</h2>
     <details><summary><span data-lang="fr">Comment fonctionne l'essai gratuit ?</span><span data-lang="en">How does the free trial work?</span></summary>
       <p data-lang="fr">Le Microsoft Store vous donne 7 jours d'essai complet, puis propose l'achat (3,99 €, sans abonnement). Vos réglages sont conservés.</p>
@@ -169,7 +191,7 @@
   </section>
 
   <section>
-    <div class="band">
+    <div class="band reveal">
       <h2 data-lang="fr">Essayez FoldersPanel gratuitement</h2><h2 data-lang="en">Try FoldersPanel for free</h2>
       <p class="lead" style="margin:0 auto 22px" data-lang="fr">7 jours, toutes les fonctions, aucune carte demandée.</p>
       <p class="lead" style="margin:0 auto 22px" data-lang="en">7 days, every feature, no card required.</p>
@@ -198,6 +220,11 @@
     var saved=null; try{saved=localStorage.getItem('fp-lang')}catch(e){}
     set(saved || ((navigator.language||'fr').toLowerCase().startsWith('fr')?'fr':'en'));
     btn.addEventListener('click',function(){ set(html.lang==='fr'?'en':'fr'); });
+    // Apparition au défilement
+    var io = 'IntersectionObserver' in window ? new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    },{rootMargin:'0px 0px -8% 0px',threshold:.1}) : null;
+    document.querySelectorAll('.reveal').forEach(function(el){ io ? io.observe(el) : el.classList.add('in'); });
   })();
 </script>
 </body>
