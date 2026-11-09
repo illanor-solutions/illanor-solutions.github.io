@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FoldersPanel — Vos dossiers de travail, à un raccourci de distance</title>
+<meta name="description" content="FoldersPanel pour Windows 11 : un panneau latéral qui affiche vos dossiers de travail d'un raccourci clavier, et le contenu d'un dossier au survol de son icône sur le Bureau. Sans collecte de données, hors ligne.">
+<meta property="og:title" content="FoldersPanel — vos dossiers de travail, à un raccourci de distance">
+<meta property="og:description" content="Panneau latéral et aperçu au survol du Bureau pour Windows 11. Essai gratuit 7 jours sur le Microsoft Store.">
+<meta property="og:image" content="https://illanor-solutions.fr/img/survol-jeux.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="img/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#15122a; --bg2:#1f2447; --panel:#211d3d; --line:#2f2a55;
+    --text:#ecebf7; --sub:#a9a7c2; --acc1:#5ea2ff; --acc2:#b07cff;
+    --grad:linear-gradient(90deg,var(--acc1),var(--acc2));
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:radial-gradient(1200px 600px at 20% -10%,#2a3270 0%,var(--bg) 55%) fixed,var(--bg);color:var(--text);font:16px/1.6 Inter,"Segoe UI Variable Text","Segoe UI",system-ui,sans-serif}
+  a{color:var(--acc1)}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  header{position:sticky;top:0;z-index:5;backdrop-filter:blur(14px);background:rgba(21,18,42,.72);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;gap:16px;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--text);text-decoration:none}
+  .brand img{width:32px;height:32px}
+  nav .links{margin-left:auto;display:flex;gap:18px;align-items:center;font-size:14px}
+  nav .links a{color:var(--sub);text-decoration:none}
+  nav .links a:hover{color:var(--text)}
+  nav .links a.btn,nav .links a.btn:hover{color:#12102a;padding:9px 16px}
+  .lang{border:1px solid var(--line);border-radius:999px;padding:4px 10px;background:transparent;color:var(--sub);cursor:pointer;font:inherit;font-size:13px}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:12px;font-weight:600;text-decoration:none;color:#12102a;background:var(--grad);box-shadow:0 8px 30px rgba(94,162,255,.25)}
+  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line);box-shadow:none}
+  .hero{padding:72px 0 40px;display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center}
+  .hero h1{font-size:44px;line-height:1.1;margin:0 0 16px;font-weight:800;letter-spacing:-.5px}
+  .hero h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:var(--sub);font-size:18px;margin:0 0 26px}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .store img{height:52px;display:block} .store .fallback{display:none} .store.nobadge img{display:none !important} .store.nobadge .fallback{display:inline-flex}
+  .price{font-size:14px;color:var(--sub);margin-top:14px}
+  .shot{border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.5);background:#0f0d20}
+  .shot img{width:100%;display:block}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc1);font-weight:600}
+  section{padding:56px 0}
+  h2{font-size:30px;margin:6px 0 10px;letter-spacing:-.3px}
+  .lead{color:var(--sub);max-width:640px;margin:0 0 28px}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{background:rgba(33,29,61,.7);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .card .ic{width:42px;height:42px;border-radius:11px;background:var(--grad);display:grid;place-items:center;margin-bottom:14px}
+  .card .ic svg{width:22px;height:22px;stroke:#12102a;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .card h3{margin:0 0 6px;font-size:17px}
+  .card p{margin:0;color:var(--sub);font-size:15px}
+  .demo{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+  .steps{counter-reset:s;display:grid;gap:14px}
+  .step{display:flex;gap:14px;align-items:flex-start}
+  .step b{counter-increment:s;flex:0 0 34px;height:34px;border-radius:50%;background:var(--grad);color:#12102a;display:grid;place-items:center;font-weight:800}
+  .step b::before{content:counter(s)}
+  .step div{color:var(--sub)} .step div strong{color:var(--text);display:block;margin-bottom:2px}
+  .gallery{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .faq details{border-top:1px solid var(--line);padding:14px 0}
+  .faq summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between}
+  .faq summary::after{content:"+";color:var(--acc1)} .faq details[open] summary::after{content:"–"}
+  .faq p{color:var(--sub);margin:8px 0 0}
+  .band{background:linear-gradient(135deg,#242b4e,#1a1531);border:1px solid var(--line);border-radius:22px;padding:40px;text-align:center}
+  footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--sub);font-size:14px}
+  footer .row{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+  footer a{color:var(--sub)}
+  [hidden]{display:none !important}
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr;padding-top:40px} .hero h1{font-size:34px}
+    .cards,.demo,.gallery{grid-template-columns:1fr} nav .links a.hide-m{display:none}
+  }
+</style>
+</head>
+<body>
+<header><div class="wrap"><nav>
+  <a class="brand" href="#"><img src="img/logo.svg" alt="">FoldersPanel</a>
+  <div class="links">
+    <a class="hide-m" href="#features"><span data-lang="fr">Fonctions</span><span data-lang="en">Features</span></a>
+    <a class="hide-m" href="#demo"><span data-lang="fr">Démo</span><span data-lang="en">Demo</span></a>
+    <a class="hide-m" href="#faq">FAQ</a>
+    <button class="lang" id="langBtn" type="button">EN</button>
+    <a class="btn" href="https://apps.microsoft.com/detail/9P9MSB472G3Z?mode=direct"><span data-lang="fr">Obtenir</span><span data-lang="en">Get it</span></a>
+  </div>
+</nav></div></header>
+
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <div class="kicker">Windows 10 / 11</div>
+      <h1 data-lang="fr">Vos dossiers de travail, <span>à un raccourci de distance.</span></h1>
+      <h1 data-lang="en">Your work folders, <span>one shortcut away.</span></h1>
+      <p data-lang="fr">Un panneau latéral glisse depuis le bord de l'écran avec <kbd>Alt</kbd> + <kbd>E</kbd> et affiche vos dossiers, chacun avec sa couleur. Survolez un dossier du Bureau : son contenu apparaît aussitôt, sans ouvrir l'Explorateur.</p>
+      <p data-lang="en">A side panel slides in from the edge of the screen with <kbd>Alt</kbd> + <kbd>E</kbd> and shows your folders, each with its own color. Hover a desktop folder: its contents appear right away, without opening File Explorer.</p>
+      <div class="cta">
+        <a class="store" href="https://apps.microsoft.com/detail/9P9MSB472G3Z?mode=direct">
+          <img data-lang="fr" src="https://get.microsoft.com/images/fr-fr%20dark.svg" alt="Télécharger sur le Microsoft Store" onerror="this.closest('.store').classList.add('nobadge')">
+          <img data-lang="en" src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Get it from Microsoft" onerror="this.closest('.store').classList.add('nobadge')">
+          <span class="btn fallback"><span data-lang="fr">Obtenir sur le Microsoft Store</span><span data-lang="en">Get it from the Microsoft Store</span></span>
+        </a>
+        <a class="btn ghost" href="#demo"><span data-lang="fr">Voir la démo</span><span data-lang="en">Watch the demo</span></a>
+      </div>
+      <div class="price" data-lang="fr">Essai gratuit 7 jours, puis 3,99 € une fois pour toutes. Aucune collecte de données.</div>
+      <div class="price" data-lang="en">7-day free trial, then €3.99 once. No data collection.</div>
+    </div>
+    <div class="shot"><img src="img/survol-jeux.png" alt="Panneau FoldersPanel ouvert au survol d'un dossier du Bureau"></div>
+  </div>
+
+  <section id="features">
+    <div class="kicker" data-lang="fr">Ce que fait FoldersPanel</div><div class="kicker" data-lang="en">What FoldersPanel does</div>
+    <h2 data-lang="fr">Moins de clics, plus de travail</h2><h2 data-lang="en">Fewer clicks, more work done</h2>
+    <p class="lead" data-lang="fr">Pensé pour ceux qui vivent dans leurs dossiers : projets, clients, partages réseau, téléchargements.</p>
+    <p class="lead" data-lang="en">Built for people who live in their folders: projects, clients, network shares, downloads.</p>
+    <div class="cards">
+      <div class="card"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="7" height="16" rx="2"/><path d="M14 8h6M14 12h6M14 16h4"/></svg></div>
+        <h3 data-lang="fr">Panneau latéral</h3><h3 data-lang="en">Side panel</h3>
+        <p data-lang="fr">Alt + E ou un clic sur l'icône FP près de l'horloge. Mes dossiers, recherche instantanée, récents et les plus utilisés.</p>
+        <p data-lang="en">Alt + E or a click on the FP icon next to the clock. My folders, instant search, recent and most-used items.</p></div>
+      <div class="card"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 11v6M9 14h6"/></svg></div>
+        <h3 data-lang="fr">Aperçu au survol du Bureau</h3><h3 data-lang="en">Desktop hover preview</h3>
+        <p data-lang="fr">Posez la souris sur un dossier du Bureau : son contenu s'affiche à côté. Ouvrez, naviguez, copiez un chemin, glissez un fichier vers Outlook ou Teams.</p>
+        <p data-lang="en">Rest the mouse on a desktop folder: its contents show up next to it. Open, browse, copy a path, drag a file into Outlook or Teams.</p></div>
+      <div class="card"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3 data-lang="fr">Discret et hors ligne</h3><h3 data-lang="en">Quiet and offline</h3>
+        <p data-lang="fr">Aucune connexion réseau, aucune collecte. Thème clair, sombre ou comme Windows ; interface en français et en anglais.</p>
+        <p data-lang="en">No network connection, no data collection. Light, dark or system theme; English and French interface.</p></div>
+    </div>
+  </section>
+
+  <section id="demo">
+    <div class="demo">
+      <div class="shot"><img src="img/demo.gif" alt="Démonstration de FoldersPanel"></div>
+      <div>
+        <div class="kicker" data-lang="fr">En 30 secondes</div><div class="kicker" data-lang="en">In 30 seconds</div>
+        <h2 data-lang="fr">Comment ça marche</h2><h2 data-lang="en">How it works</h2>
+        <div class="steps">
+          <div class="step"><b></b><div data-lang="fr"><strong>Choisissez vos dossiers</strong>Au premier lancement, FoldersPanel propose ceux du Bureau, Documents et Téléchargements ; ajoutez-en d'autres à tout moment, y compris des partages réseau.</div><div data-lang="en"><strong>Pick your folders</strong>On first launch, FoldersPanel suggests your desktop, Documents and Downloads folders; add more at any time, including network shares.</div></div>
+          <div class="step"><b></b><div data-lang="fr"><strong>Alt + E</strong>Le panneau glisse depuis le bord de l'écran. Tapez quelques lettres pour filtrer, Entrée pour ouvrir, Échap pour revenir.</div><div data-lang="en"><strong>Alt + E</strong>The panel slides in from the edge of the screen. Type a few letters to filter, Enter to open, Esc to go back.</div></div>
+          <div class="step"><b></b><div data-lang="fr"><strong>Survolez le Bureau</strong>Un dossier sous la souris, et son contenu apparaît. Épinglez, colorez, masquez, regroupez : chaque dossier à votre façon.</div><div data-lang="en"><strong>Hover the desktop</strong>A folder under the mouse, and its contents appear. Pin, color, hide, group: every folder your way.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="gallery">
+      <div class="shot"><img src="img/survol-documents.png" alt="Menu contextuel du panneau au survol"></div>
+      <div class="shot"><img src="img/parametres.png" alt="Paramètres de FoldersPanel"></div>
+    </div>
+  </section>
+
+  <section id="faq" class="faq">
+    <h2>FAQ</h2>
+    <details><summary><span data-lang="fr">Comment fonctionne l'essai gratuit ?</span><span data-lang="en">How does the free trial work?</span></summary>
+      <p data-lang="fr">Le Microsoft Store vous donne 7 jours d'essai complet, puis propose l'achat (3,99 €, sans abonnement). Vos réglages sont conservés.</p>
+      <p data-lang="en">The Microsoft Store gives you a full 7-day trial, then offers the purchase (€3.99, no subscription). Your settings are kept.</p></details>
+    <details><summary><span data-lang="fr">Quelles données sont collectées ?</span><span data-lang="en">What data is collected?</span></summary>
+      <p data-lang="fr">Aucune. L'application n'établit aucune connexion réseau ; réglages et historique restent sur votre ordinateur. <a href="politique-confidentialite.html">Politique de confidentialité</a>.</p>
+      <p data-lang="en">None. The app makes no network connection; settings and history stay on your computer. <a href="politique-confidentialite.html#en">Privacy policy</a>.</p></details>
+    <details><summary><span data-lang="fr">Le survol du Bureau modifie-t-il Windows ?</span><span data-lang="en">Does the desktop hover change Windows?</span></summary>
+      <p data-lang="fr">Non. FoldersPanel lit seulement le nom de l'icône sous la souris, via l'accessibilité de Windows. La fonction se désactive globalement ou dossier par dossier.</p>
+      <p data-lang="en">No. FoldersPanel only reads the name of the icon under the mouse, through Windows accessibility. The feature can be turned off globally or per folder.</p></details>
+    <details><summary><span data-lang="fr">Quelle version de Windows ?</span><span data-lang="en">Which Windows version?</span></summary>
+      <p data-lang="fr">Windows 10 (1809 ou plus récent) et Windows 11, 64 bits. Le runtime .NET est inclus, rien d'autre à installer.</p>
+      <p data-lang="en">Windows 10 (1809 or later) and Windows 11, 64-bit. The .NET runtime is included, nothing else to install.</p></details>
+  </section>
+
+  <section>
+    <div class="band">
+      <h2 data-lang="fr">Essayez FoldersPanel gratuitement</h2><h2 data-lang="en">Try FoldersPanel for free</h2>
+      <p class="lead" style="margin:0 auto 22px" data-lang="fr">7 jours, toutes les fonctions, aucune carte demandée.</p>
+      <p class="lead" style="margin:0 auto 22px" data-lang="en">7 days, every feature, no card required.</p>
+      <a class="store" style="display:inline-block" href="https://apps.microsoft.com/detail/9P9MSB472G3Z?mode=direct">
+        <img data-lang="fr" src="https://get.microsoft.com/images/fr-fr%20dark.svg" alt="Télécharger sur le Microsoft Store" onerror="this.closest('.store').classList.add('nobadge')">
+        <img data-lang="en" src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Get it from Microsoft" onerror="this.closest('.store').classList.add('nobadge')">
+          <span class="btn fallback"><span data-lang="fr">Obtenir sur le Microsoft Store</span><span data-lang="en">Get it from the Microsoft Store</span></span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><div class="row">
+  <div>© 2026 Illanor Solutions · FoldersPanel</div>
+  <div><a href="mailto:support@illanor-solutions.fr">support@illanor-solutions.fr</a> · <a href="politique-confidentialite.html"><span data-lang="fr">Confidentialité</span><span data-lang="en">Privacy</span></a></div>
+</div></div></footer>
+
+<script>
+  (function(){
+    var html=document.documentElement, btn=document.getElementById('langBtn');
+    function set(l){
+      html.lang=l; btn.textContent=l==='fr'?'EN':'FR';
+      document.querySelectorAll('[data-lang]').forEach(function(el){ el.hidden = el.getAttribute('data-lang')!==l; });
+      try{localStorage.setItem('fp-lang',l)}catch(e){}
+    }
+    var saved=null; try{saved=localStorage.getItem('fp-lang')}catch(e){}
+    set(saved || ((navigator.language||'fr').toLowerCase().startsWith('fr')?'fr':'en'));
+    btn.addEventListener('click',function(){ set(html.lang==='fr'?'en':'fr'); });
+  })();
+</script>
+</body>
+</html>
